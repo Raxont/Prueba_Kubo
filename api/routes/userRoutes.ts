@@ -8,14 +8,12 @@ const userController = new UserController();
  * Rutas relacionadas con la gestión de usuarios y sus películas vistas.
  * Define las rutas de la API y las asocia a los métodos del UserController.
  */
-
 /**
  * @swagger
  * tags:
  *  name: Usuarios
  *  description: Api para la gestion de usuarios
  */
-
 /**
  * @swagger
  * components:
@@ -32,11 +30,6 @@ const userController = new UserController();
  *         email:
  *           type: string
  *           example: "pedro@gmail.com"
- */
-/**
- * @swagger
- * components:
- *  schemas:
  *   Usuarios1:
  *       type: object
  *       required:
@@ -52,6 +45,48 @@ const userController = new UserController();
  *         email:
  *           type: string
  *           example: "pedro@gmail.com"
+ *   Usuarios2:
+ *     type: object
+ *     required:
+ *       - name
+ *       - email
+ *     properties:
+ *       id:
+ *         type: integer
+ *         example: 1
+ *       name:
+ *         type: string
+ *         example: "Pedro"
+ *       email:
+ *         type: string
+ *         example: "pedro@gmail.com"
+ *       viewedMovies:
+ *         type: array
+ *         items:
+ *           type: object
+ *           properties:
+ *             id: 
+ *               type: integer
+ *               example: 1
+ *             title:
+ *               type: string
+ *               example: "Pelicula 1"
+ *             description:
+ *               type: string
+ *               example: "Descripcion pelicula 1"
+ *             releaseDate:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-03-06T00:00:00Z"
+ *             category:
+ *               type: object
+ *               properties:
+ *                 id: 
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: "Terror"
  */
 
 /**
@@ -90,17 +125,10 @@ router.post('/', userController.createUser);
 
 /**
  * @swagger
- * /usuarios/{id}:
+ * /api/users/viewed-movies:
  *   get:
- *     summary: Obtiene un usuario por id
+ *     summary: Obtiene los usuarios con sus peliculas vistas
  *     tags : [Usuarios]
- *     parameters:
- *      - in: path
- *        name: id
- *        schema:
- *         type: string
- *        required: true
- *        description: El id del usuario
  *     responses:
  *       200:
  *         description: Usuario encontrado
@@ -108,7 +136,7 @@ router.post('/', userController.createUser);
  *           application/json:
  *             schema:
  *               items:
- *                 $ref: '#/components/schemas/Usuarios'
+ *                 $ref: '#/components/schemas/Usuarios2'
  *       400:
  *         description: No se encontro ningun usuario
  *       401:
@@ -125,6 +153,44 @@ router.post('/', userController.createUser);
  */
 router.get('/viewed-movies', userController.getUsersWithViewedMovies);
 
+/**
+ * @swagger
+ * /api/users/{userId}/view-movie/{movieId}:
+ *   post:
+ *     summary: Marcar una película como vista
+ *     tags: 
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del usuario
+ *       - in: path
+ *         name: movieId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la película
+ *     responses:
+ *       200:
+ *         description: Película marcada como vista correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Película marcada como vista correctamente"
+ *       400:
+ *         description: Parámetros inválidos (UserId y MovieId son requeridos)
+ *       500:
+ *         description: Error al marcar la película como vista
+ *       429:
+ *         description: Tasa de solicitudes superada. Intenta de nuevo más tarde
+ */
 /**
  * @route POST /users/:userId/view-movie/:movieId
  * @description Marca una película como vista por un usuario específico.
