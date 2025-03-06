@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int           @id @default(autoincrement())
+  name      String
+  email     String        @unique
+  viewedMovies MovieView[]
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  movies    Movie[]
+}
+
+model Movie {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String?
+  releaseDate DateTime
+  categoryId  Int
+  category    Category    @relation(fields: [categoryId], references: [id])
+  viewedBy    MovieView[]
+}
+
+model MovieView {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  movieId   Int
+  viewedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  movie     Movie    @relation(fields: [movieId], references: [id])
+
+  @@unique([userId, movieId])
+}

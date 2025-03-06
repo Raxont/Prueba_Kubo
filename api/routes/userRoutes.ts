@@ -1,15 +1,16 @@
-import {prisma} from "../infrastructure/database/prisma"
-import { Router } from "express";
+import { Router } from 'express';
+import { UserController } from '../controllers/userController';
 
-const UserRouter = Router();
+const router = Router();
+const userController = new UserController();
 
-UserRouter.get('/', (req,res)=>{
-    try {
-        res.send('Hello World');
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({message: 'Error sending message to server '});
-    }
-});
+// Crear un usuario
+router.post('/', userController.createUser);
 
-export default UserRouter;
+// Listar usuarios con películas vistas
+router.get('/viewed-movies', userController.getUsersWithViewedMovies);
+
+// Marcar película como vista
+router.post('/:userId/view-movie/:movieId', userController.markMovieAsViewed);
+
+export default router;

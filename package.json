@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma": {
+  "schema": "api/models/prisma/schema.prisma"
+  },
   "scripts": {
-    "dev": "tsx --watch api/app.ts"
+    "dev": "tsx --watch api/app.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:categorias": "ts-node api/models/prisma/categorias.ts"
   },
   "keywords": [],
   "author": "",
