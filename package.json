@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "prisma": {
-  "schema": "api/models/prisma/schema.prisma"
+    "schema": "api/models/prisma/schema.prisma"
   },
   "scripts": {
     "dev": "tsx --watch api/app.ts",
@@ -19,6 +19,8 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.9",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^6.4.1",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
@@ -26,6 +28,8 @@
   "dependencies": {
     "@prisma/client": "^6.4.1",
     "express": "^4.21.2",
-    "express-rate-limit": "^7.5.0"
+    "express-rate-limit": "^7.5.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

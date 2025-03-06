@@ -3,14 +3,28 @@ import { CreateUserDto, UserWithViewedMovies } from '../types';
 
 const prisma = new PrismaClient();
 
+/**
+ * Clase UserService que gestiona las operaciones relacionadas con los usuarios.
+ * Se encarga de la lógica de negocio y la comunicación con la base de datos.
+ */
 export class UserService {
+  /**
+   * Crea un nuevo usuario en la base de datos.
+   * @param {CreateUserDto} userData - Datos del usuario a crear.
+   * @returns {Promise<User>} - Retorna el usuario creado.
+   */
   async createUser(userData: CreateUserDto): Promise<User> {
     return prisma.user.create({
       data: userData
     });
   }
 
+  /**
+   * Obtiene la lista de usuarios junto con las películas que han visto.
+   * @returns {Promise<UserWithViewedMovies[]>} - Retorna un arreglo de usuarios con sus películas vistas.
+   */
   async getUsersWithViewedMovies(): Promise<UserWithViewedMovies[]> {
+    // Consulta de usuarios con las películas que han visto
     const users = await prisma.user.findMany({
       include: {
         viewedMovies: {
@@ -25,6 +39,7 @@ export class UserService {
       }
     });
 
+    // Transformación de datos a ViewModel
     return users.map(user => ({
       id: user.id,
       name: user.name,
@@ -42,6 +57,13 @@ export class UserService {
     }));
   }
 
+  /**
+   * Marca una película como vista por un usuario específico.
+   * Si ya ha sido vista, se actualiza la fecha de visualización.
+   * @param {number} userId - ID del usuario.
+   * @param {number} movieId - ID de la película.
+   * @returns {Promise<void>} - No retorna ningún valor.
+   */
   async markMovieAsViewed(userId: number, movieId: number): Promise<void> {
     await prisma.movieView.upsert({
       where: {

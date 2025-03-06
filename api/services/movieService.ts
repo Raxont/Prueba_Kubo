@@ -3,18 +3,32 @@ import { CreateMovieDto, MovieFilterParams, PaginatedResult, MovieViewModel } fr
 
 const prisma = new PrismaClient();
 
+/**
+ * Clase MovieService que gestiona las operaciones relacionadas con las películas.
+ * Se encarga de la lógica de negocio y la comunicación con la base de datos.
+ */
 export class MovieService {
+  /**
+   * Crea una nueva película en la base de datos.
+   * @param {CreateMovieDto} movieData - Datos de la película a crear.
+   * @returns {Promise<Movie>} - Retorna la película creada.
+   */
   async createMovie(movieData: CreateMovieDto): Promise<Movie> {
     return prisma.movie.create({
       data: movieData
     });
   }
 
+  /**
+   * Obtiene una lista de películas con filtros y paginación.
+   * @param {MovieFilterParams} filters - Parámetros de filtrado y paginación.
+   * @returns {Promise<PaginatedResult<MovieViewModel>>} - Retorna un objeto con la lista de películas y metadatos de paginación.
+   */
   async getMovies(filters: MovieFilterParams): Promise<PaginatedResult<MovieViewModel>> {
     const { page = 1, limit = 10, title, categoryId, orderByDate = true } = filters;
     const skip = (page - 1) * limit;
 
-    // Construir filtros
+    // Construcción de filtros
     const where: any = {};
     
     if (title) {
@@ -27,13 +41,13 @@ export class MovieService {
       where.categoryId = categoryId;
     }
 
-    // Ordenamiento
+    // Definición del ordenamiento
     const orderBy: any = {};
     if (orderByDate) {
       orderBy.releaseDate = 'desc';
     }
 
-    // Ejecutar consulta con paginación
+    // Consulta de películas con filtros y paginación
     const [movies, total] = await Promise.all([
       prisma.movie.findMany({
         where,
@@ -47,7 +61,7 @@ export class MovieService {
       prisma.movie.count({ where })
     ]);
 
-    // Transformar a ViewModel
+    // Transformación a ViewModel
     const movieViewModels = movies.map(movie => ({
       id: movie.id,
       title: movie.title,
@@ -59,7 +73,7 @@ export class MovieService {
       }
     }));
 
-    // Calcular total de páginas
+    // Cálculo del total de páginas
     const totalPages = Math.ceil(total / limit);
 
     return {
@@ -73,11 +87,16 @@ export class MovieService {
     };
   }
 
+  /**
+   * Obtiene las películas estrenadas en las últimas tres semanas.
+   * @returns {Promise<MovieViewModel[]>} - Retorna una lista de películas recientes.
+   */
   async getNewReleases(): Promise<MovieViewModel[]> {
-    // Calcular fecha de hace 3 semanas
+    // Cálculo de la fecha de hace 3 semanas
     const threeWeeksAgo = new Date();
     threeWeeksAgo.setDate(threeWeeksAgo.getDate() - 21);
 
+    // Consulta de películas recientes
     const newReleases = await prisma.movie.findMany({
       where: {
         releaseDate: {
@@ -92,6 +111,7 @@ export class MovieService {
       }
     });
 
+    // Transformación a ViewModel
     return newReleases.map(movie => ({
       id: movie.id,
       title: movie.title,
