@@ -7,7 +7,9 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "types": ["node"],
+    "lib": ["ES2021", "DOM"]
   },
   "include": ["api/**/*"],
   "exclude": ["node_modules"]
