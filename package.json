@@ -12,7 +12,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:categorias": "ts-node api/models/prisma/categorias.ts",
     "build": "prisma generate",
-    "start": "prisma migrate deploy && tsx dist/api/models/prisma/categorias.js && tsx dist/api/app.js"
+    "start": "prisma migrate dev && npx tsx api/models/prisma/categorias.ts && npx tsx api/app.ts"
   },
   "keywords": [],
   "author": "",
