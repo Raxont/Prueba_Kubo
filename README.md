@@ -31,6 +31,8 @@ nvm use 23.0.0
 git clone https://github.com/Raxont/Prueba_Kubo.git
 ```
 
+Usar la rama **main** para pruebas locales, la rama **deploy** solo esta para el correcto funcionamiento en el servidor de render.
+
 ### Instalación de Dependencias
 
 ```
@@ -42,9 +44,8 @@ npm install
 Crea un archivo **.env** en la raíz del proyecto y configura las variables necesarias:
 
 ```bash
-DATABASE_URL=
 VITE_HOST=
-VITE_PORT_BACKEND= 
+VITE_PORT_BACKEND=
 SERVER_URL=
 ```
 
@@ -62,7 +63,6 @@ SERVER_URL=
 │   │       movieController.ts  		# Controlador de películas
 │   │       userController.ts   		# Controlador de usuarios
 │   ├───infrastructure  				# Infraestructura del backend
-│   │   ├───database    				# Guarda el archivo de la base de datos
 │   │   ├───middlewares 				# Middleware para procesamiento de solicitudes
 │   │   │       rateLimit.ts  			# Límite de solicitudes para evitar abuso
 │   │   │       swagger.ts    			# Configuración de Swagger para documentación de la API
@@ -120,11 +120,17 @@ npm run dev
 
 La API está documentada con Swagger. Para acceder a la documentación, inicia el servidor y visita:
 
-```
-{Tu URL}/api/
+```http
+http://localhost:3000/api/
 ```
 
-## Usado por:
+### URL del servidor de render:
+
+```http
+https://prueba-kubo.onrender.com
+```
+
+### Usado por:
 
 Este proyecto puede ser usado por:
 

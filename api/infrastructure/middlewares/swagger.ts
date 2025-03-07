@@ -1,7 +1,7 @@
 // swagger.ts
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
+const SERVER_URL = process.env.SERVER_URL;
 
 // Definir las opciones para la documentación Swagger
 const swaggerOptions: swaggerJSDoc.Options = {
