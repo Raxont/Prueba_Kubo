@@ -1,0 +1,1 @@
+La La documentacion de la api esta hecha en swagger por lo que si desea verla puede dirigirse al /api

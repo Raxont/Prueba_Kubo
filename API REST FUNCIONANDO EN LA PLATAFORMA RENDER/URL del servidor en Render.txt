@@ -1,0 +1,4 @@
+https://prueba-kubo.onrender.com
+
+Nota: Recuerda utilizar el /api seguido del endpoint que desea usar por ejemplo:
+https://prueba-kubo.onrender.com/api/users
