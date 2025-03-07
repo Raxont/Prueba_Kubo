@@ -7,10 +7,12 @@
     "schema": "api/models/prisma/schema.prisma"
   },
   "scripts": {
-    "dev": "tsx --watch api/app.ts",
+    "dev": "ts-node api/app.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:categorias": "ts-node api/models/prisma/categorias.ts"
+    "prisma:categorias": "ts-node api/models/prisma/categorias.ts",
+    "build": "prisma generate",
+    "start": "prisma migrate deploy && NODE_ENV=production node -r ts-node/register/transpile-only api/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,17 +21,14 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.9",
-    "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^6.4.1",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "express-rate-limit": "^7.5.0",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "express-rate-limit": "^7.5.0"
   }
 }

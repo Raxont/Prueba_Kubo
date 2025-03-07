@@ -2,7 +2,6 @@ import express from "express"; // Importa Express para crear el servidor
 import http from "http"; // Importa el módulo HTTP para crear un servidor
 import UserRoutes from "../../routes/userRoutes"; // Rutas de los productos
 import MovieRoutes from "../../routes/movieRoutes"; // Rutas de los productos
-import { swaggerUi, swaggerDocs } from "../middlewares/swagger";
 import { limiTotal } from "../middlewares/rateLimit"; // Middleware para limitar solicitudes
 
 //* Función para crear y configurar el servidor Express
@@ -17,7 +16,6 @@ const createServer = () => {
   // Rutas
   app.use('/api/users', UserRoutes);
   app.use('/api/movies', MovieRoutes);
-  app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  
   //* Crear un servidor HTTP usando la aplicación Express
   const server = http.createServer(app); // Crea un servidor HTTP con la aplicación Express

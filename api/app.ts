@@ -1,26 +1,23 @@
-import createServer from './infrastructure/server/server';
-process.loadEnvFile();
+import createServer from './infrastructure/server/server'; 
+import dotenv from 'dotenv';
 
-const PORT = process.env.VITE_PORT_BACKEND;
-const HOST = process.env.VITE_HOST;
-const SERVER_URL = process.env.SERVER_URL || `http://${HOST}:${PORT}`;
+// Solo carga el archivo .env en desarrollo
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
+ 
+const PORT = process.env.PORT || process.env.VITE_PORT_BACKEND || 3000; 
+ 
+//* Función principal que inicia la aplicación 
+const startApp = async () => { 
+    //* Crea el servidor Express utilizando la configuración definida en createServer 
+    const app = createServer(); 
+ 
+    app.listen(PORT, () => {
+        console.log(`Servidor en ejecución en puerto ${PORT}`); 
+    }); 
 
-//* Función principal que inicia la aplicación
-const startApp = async () => {
-    //* Crea el servidor Express utilizando la configuración definida en createServer
-    const app = createServer();
-
-    //* Determina los valores de host y puerto según la disponibilidad de SERVER_URL
-    if (process.env.SERVER_URL) {
-        app.listen(SERVER_URL, () => {
-            console.log(`Servidor en ejecución en ${SERVER_URL}`);
-        });
-    } else {
-        app.listen({ port: PORT, host: HOST }, () => {
-            console.log(`Servidor en ejecución en http://${HOST}:${PORT}`);
-        });
-    }
-};
-
-//* Llama a la función para iniciar la aplicación
+}; 
+ 
+//* Llama a la función para iniciar la aplicación 
 startApp();
